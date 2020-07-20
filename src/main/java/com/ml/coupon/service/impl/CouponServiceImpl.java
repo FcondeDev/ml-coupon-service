@@ -44,6 +44,8 @@ public class CouponServiceImpl implements CouponService {
 
 	@Override
 	public CouponResponseDTO getTheBestValue(CouponDTO couponDTO) {
+		log.info("--- iniciando servicio---");
+		log.info("generando id unico para las variables de entrada...");
 		String favoriteId = utils.generateFavoriteId(couponDTO.getItemIds());
 
 		log.info("Validando si la respuesta ya existe...");
@@ -53,12 +55,19 @@ public class CouponServiceImpl implements CouponService {
 		if (couponFavorite.isPresent())
 			return existingResponse(couponFavorite.get());
 
+		log.info("La respuesta no existe, obteniendo informacion del API de mercado libre...");
 		Map<String, Float> items = createAndValidateItems(couponDTO.getItemIds());
 
+		log.info("Inicializando variables...");
 		solution = new int[items.size()];
 		finalSolution = new int[items.size()];
+
+		log.info("Calculando resultados...");
 		List<String> solutionsIds = calculate(items, couponDTO.getAmount());
+
 		storeResponse(favoriteId, couponDTO.getAmount(), solutionsIds);
+		
+		log.info("--- finalizando servicio---");
 		return new CouponResponseDTO(solutionsIds, bestValue);
 	}
 
@@ -72,6 +81,7 @@ public class CouponServiceImpl implements CouponService {
 	}
 
 	private void storeResponse(String favoriteId, float amount, List<String> solutionsId) {
+		log.info("Guardando respuesta en la base de datos...");
 		List<SolutiosIds> solutions = new ArrayList<>();
 		for (String solutionid : solutionsId) {
 			solutions.add(new SolutiosIds(solutionid));
