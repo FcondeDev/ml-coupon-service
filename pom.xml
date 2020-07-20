@@ -96,18 +96,11 @@
 					</execution>
 				</executions>
 				<configuration>
-					<repository>642691116164.dkr.ecr.us-east-2.amazonaws.com/${git.branch}/${project.artifactId}</repository>
+					<repository>642691116164.dkr.ecr.us-east-2.amazonaws.com/master/${project.artifactId}</repository>
 					<tag>${project.version}</tag>
 					<buildArgs>
 						<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
 					</buildArgs>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>pl.project13.maven</groupId>
-				<artifactId>git-commit-id-plugin</artifactId>
-				<configuration>
-					<offline>true</offline>
 				</configuration>
 			</plugin>
 		</plugins>
