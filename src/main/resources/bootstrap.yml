@@ -4,3 +4,11 @@ spring:
       uri: http://localhost:4000/config-server
       profile: master
       label: master
+---
+spring:
+  profiles: testing
+  cloud:
+    config:
+      uri: http://ml-config-server.develop:4000/config-server
+      profile: master
+      label: master
